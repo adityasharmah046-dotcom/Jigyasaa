@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Rishu 💗</title>
+
+<style>
+body{
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#ffe6f2,#ffffff);
+  overflow-x:hidden;
+  text-align:center;
+}
+
+section{
+  padding:60px 20px;
+  display:none;
+}
+
+.active{
+  display:block;
+  animation:fade 1s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+h1{color:#ff4d88;}
+
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:30px;
+  margin:10px;
+  cursor:pointer;
+  font-size:16px;
+  transition:.3s;
+}
+
+.yes{background:#ff4d88;color:white;}
+.no{background:#eee;}
+
+img{
+  width:90%;
+  max-width:300px;
+  border-radius:20px;
+  margin:10px 0;
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+/* Floating Hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  color:#ff4d88;
+  animation:float 6s linear infinite;
+}
+@keyframes float{
+  to{transform:translateY(-110vh);opacity:0;}
+}
+
+/* Proposal Ring */
+.ring{
+  font-size:80px;
+  animation:spin 2s infinite linear;
+}
+@keyframes spin{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+
+/* Fireworks */
+.fire{
+  position:fixed;
+  top:0;
+  font-size:25px;
+  animation:fall 3s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(100vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<section id="intro" class="active">
+  <h1>Hey Rishu 💗</h1>
+  <p>I made something magical for you...</p>
+  <button class="yes" onclick="start()">Open ✨</button>
+</section>
+
+<section id="proposal">
+  <h1>Will you be my Valentine? 💖</h1>
+  <button class="yes" onclick="show('letter')">Yes 💗</button>
+  <button class="no" onmouseover="moveNo(this)">No 🙈</button>
+</section>
+
+<section id="letter">
+  <h1>💌 My Letter</h1>
+  <p>
+  Rishu, you are my peace and my chaos.
+  My favorite notification.
+  My soft place to fall.
+  – Aditya 💗
+  </p>
+  <button class="yes" onclick="show('slideshow')">Next 📸</button>
+</section>
+
+<section id="slideshow">
+  <h1>Our Memories 📸</h1>
+  <img id="slideImg" src="photo1.jpg">
+  <br>
+  <button onclick="nextSlide()">Next Memory 💕</button>
+  <br>
+  <button class="yes" onclick="show('game')">Continue 🎮</button>
+</section>
+
+<section id="game">
+  <h1>Catch 5 Hearts 💖</h1>
+  <div id="gameArea" style="height:250px;position:relative;">
+    <div id="heart" style="position:absolute;font-size:35px;cursor:pointer;">💗</div>
+  </div>
+  <p id="score">Score:0</p>
+</section>
+
+<section id="final">
+  <div class="ring">💍</div>
+  <h1>Rishu 💗</h1>
+  <h2>Aditya + Rishu = Forever 💖</h2>
+</section>
+
+<script>
+
+let music=document.getElementById("bgMusic");
+
+function start(){
+  music.play();
+  show("proposal");
+}
+
+function show(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function moveNo(btn){
+  btn.style.position="absolute";
+  btn.style.left=Math.random()*80+"vw";
+  btn.style.top=Math.random()*80+"vh";
+}
+
+let images=["photo1.jpg","photo2.jpg","photo3.jpg"];
+let index=0;
+function nextSlide(){
+  index=(index+1)%images.length;
+  document.getElementById("slideImg").src=images[index];
+}
+
+let score=0;
+let heart=document.getElementById("heart");
+heart.onclick=function(){
+  score++;
+  document.getElementById("score").innerText="Score:"+score;
+  heart.style.top=Math.random()*200+"px";
+  heart.style.left=Math.random()*80+"%";
+  if(score>=5){
+    fireworks();
+    show("final");
+  }
+};
+
+function fireworks(){
+  for(let i=0;i<50;i++){
+    let f=document.createElement("div");
+    f.className="fire";
+    f.innerHTML="💖";
+    f.style.left=Math.random()*100+"vw";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),3000);
+  }
+}
+
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💗";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},500);
+
+</script>
+
+</body>
+</html>
